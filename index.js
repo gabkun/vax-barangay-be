@@ -7,6 +7,7 @@ import purokRoutes from './routes/itemRoutes.js';
 import vaccineRoutes from './routes/vaccineRoutes.js';
 import infantRoutes from './routes/infantRoutes.js';
 import healthworkerRoutes from './routes/healthworkerRoutes.js';
+import vaccinationRoutes from './routes/vaccinationRoutes.js';
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use('/api/purok', purokRoutes);
 app.use('/api/infant', infantRoutes);
 app.use('/api/vaccine', vaccineRoutes);
 app.use('/api/health', healthworkerRoutes);
+app.use('/api/vaccination', vaccinationRoutes);
 
 
 
