@@ -1,0 +1,102 @@
+Component Name: LoginScreen
+
+Endpoint: POST /api/auth/login
+
+   req.body : {
+
+"email":"gabriel@gmail.com",
+"password" : "12345",
+}
+
+
+response :
+{
+    "message": "Login successful",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM4NjgyMDA0LCJleHAiOjE3Mzg2ODU2MDR9.2UQhBJaKbC0-FtgZYBr2Nzxpq32vZkYLWQHoCnG2mgs",
+    "userId": 1,
+    "username": "john_doe",
+    "role": 1
+}
+
+Component Name: SignupScreen
+
+Endpoint: POST /api/auth/signup
+
+   req.body : {
+        "username":"gabriel123",
+        "email":"gabriel@gmail.com",
+        "password" : "12345",
+        "role" : "1" 
+}
+
+
+response :
+{
+    "message": "User registered successfully",
+    "userId": 3
+}
+
+Component Name: EncodeScreen
+
+Endpoint: POST /api/encode/encodes
+
+   req.body : {
+    "user_id": 1,
+    "type": "Used Oil",
+    "unit": "Container",
+    "matter": "Wet",
+    "total": 50,
+    "status": 1
+
+}
+
+
+response :
+{
+    "message": "Encode created successfully",
+    "encodeId": 3,
+    "itemId": 3
+}
+
+
+
+Component Name: DeliveryScreen (For BENRO) (APPROVAL)
+
+Endpoint: GET /api/encode/pending
+
+
+
+
+response :
+[
+    {
+        "id": 2,
+        "user_id": 1,
+        "item_encode_id": 2,
+        "status": 1
+    },
+    {
+        "id": 3,
+        "user_id": 1,
+        "item_encode_id": 3,
+        "status": 1
+    }
+]
+
+Component Name: DeliveryScreen (For BENRO) (APPROVAL)
+
+Endpoint: POST /api/encode/approve
+
+
+   req.body : {
+    "encode_id": 1
+
+}
+
+
+response :
+{
+    "message": "Encode approved and delivery created successfully",
+    "encode_id": 2,
+    "tracking_number": 700297
+}

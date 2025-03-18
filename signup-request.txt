@@ -1,0 +1,79 @@
+
+      if (role === 1) {
+        const industryQuery = `
+          INSERT INTO tbl_industry_info (fname, lname, cnum, dob, address, classification, compname, compnum, compemail, compaddress) 
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const industryValues = [fname, lname, cnum, dob, address, classification, compname, compnum, compemail, compaddress];
+
+        db.query(industryQuery, industryValues, (err, industryResult) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json({ message: "Error saving industry info" });
+          }
+
+          infoId = industryResult.insertId;
+          insertUser();
+        });
+      } else if (role === 2) {
+        const riderQuery = `
+          INSERT INTO tbl_rider_info (fname, lname, cnum, dob, address, brand, model, platenum, licensenum) 
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const riderValues = [fname, lname, cnum, dob, address, brand, model, platenum, licensenum];
+
+        db.query(riderQuery, riderValues, (err, riderResult) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json({ message: "Error saving rider info" });
+          }
+
+          infoId = riderResult.insertId;
+          insertUser();
+        });
+      }
+
+      {
+    "message": "Login successful",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwicm9sZSI6MSwiaWF0IjoxNzQxNDQ0NTYyLCJleHAiOjE3NDE1MzA5NjJ9.3ksZbvjfv5rViXAKpNvFfHKTBQDqYJ-II3gE3yARqZM",
+    "user": {
+        "id": 9,
+        "username": "industry_user1",
+        "email": "industr1y@example.com",
+        "role": 1,
+        "additionalInfo": {
+            "id": 3,
+            "fname": "John",
+            "lname": "Doe",
+            "cnum": "1234567890",
+            "dob": "1989-12-31T16:00:00.000Z",
+            "address": "123 Industry Street",
+            "classification": "Manufacturing",
+            "compname": "Industry Corp",
+            "compnum": "987654321",
+            "compemail": "contact@industrycorp.com",
+            "compaddress": "456 Business Road"
+        }
+    }
+}
+//if rider
+{
+    "message": "Login successful",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6MiwiaWF0IjoxNzQxNDQ0Njk1LCJleHAiOjE3NDE1MzEwOTV9.ky1Qvv8S0gmcqMPHMEOJHPS4-TOAqSRTns6iASq25iA",
+    "user": {
+        "id": 8,
+        "username": "rider_user",
+        "email": "rider@example.com",
+        "role": 2,
+        "additionalInfo": {
+            "id": 1,
+            "fname": 0,
+            "lname": 0,
+            "cnum": 987654321,
+            "dob": 1995,
+            "address": 789,
+            "brand": 0,
+            "model": 0,
+            "platenum": 0,
+            "licensenum": 0
+        }
+    }
+}

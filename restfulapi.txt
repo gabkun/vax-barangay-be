@@ -1,0 +1,65 @@
+GET http://localhost:8080/api/encode/transactions/4
+
+response:
+[
+    {
+        "user_id": 4,
+        "tracking_id": "HYPY7789",
+        "items": [
+            {
+                "name": "Rice",
+                "total": 5,
+                "type": "Dry",
+                "container": "Bags"
+            },
+            {
+                "name": "Fruits And Vegetables",
+                "total": 3,
+                "type": "Wet",
+                "container": "Container"
+            },
+            {
+                "name": "Animal Meat",
+                "total": 2,
+                "type": "Dry",
+                "container": "Bags"
+            },
+            {
+                "name": "Bread",
+                "total": 1,
+                "type": "Dry",
+                "container": "Bags"
+            }
+        ]
+    }
+]
+
+POST http://localhost:8080/api/encode/encodes
+
+body:
+{
+  "user_id": 4,
+  "latitude": "10.3157",
+  "longitude": "123.8854",
+  "location": "Cebu City, Philippines",
+  "items": [
+    { "id": 1, "total": 5 },
+    { "id": 2, "total": 3 },
+    { "id": 3, "total": 2 },
+    { "id": 4, "total": 1 }
+  ]
+}
+
+response:
+{
+    "message": "Encode, collection, and order created successfully",
+    "encodeId": 19,
+    "collectionId": "QYV795",
+    "orderId": 16
+}
+
+
+UPDATES:
+    CREATED TBL_COLLECTION WITH UNIQUE COLLECTION_ID, ITEMS_ID, TOTAL, CREATED
+    WILL INSERT INTO TBL_ENCODE WITH USER_ID, COLLECTION_ID, ORDER_ID, CREATED, AND status
+    TBL_ORDER WILL HAVE UNIQUE TRACKING NUMBER, LONG, LAT, LOCATION, CREATED, AND status
