@@ -26,6 +26,25 @@ export const createPurok = async (req, res) => {
     }
 };
 
+export const countPuroks = async (req, res) => {
+    try {
+        const sql = 'SELECT COUNT(*) AS total FROM tbl_purok WHERE status = 1';
+
+        db.query(sql, (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: 'Server error' });
+            }
+
+            return res.status(200).json({ total: results[0].total });
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
 export const getPurok = async (req, res) => {
     try {
         const sql = 'SELECT * FROM tbl_purok WHERE status = 1';

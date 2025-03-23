@@ -40,6 +40,26 @@ export const createVaccination = (req, res) => {
     });
 };
 
+export const countVaccination = (req, res) => {
+    const sql = `
+        SELECT COUNT(*) AS total
+        FROM tbl_vaccine_record AS vr
+        INNER JOIN tbl_vaccine AS v ON vr.vaccine_id = v.id
+        INNER JOIN tbl_healthworkers AS hw ON vr.worker_id = hw.id
+        INNER JOIN tbl_members AS m ON vr.member_id = m.id
+        WHERE vr.status = 2
+    `;
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Server error' });
+        }
+
+        return res.status(200).json({ total: results[0].total });
+    });
+};
+
 export const getVaccinationById = (req, res) => {
   const { id } = req.params;
 
@@ -69,7 +89,7 @@ export const getVaccinationById = (req, res) => {
 
 export const updateVaccination = (req, res) => {
   const { id } = req.params;
-  const { sched_date, sched_time, vaccine_id, worker_id, member_id, status } = req.body;
+  const { sched_date, sched_time, vaccine_id, worker_id, member_id, status = 1 } = req.body;
 
   const sql = `
       UPDATE tbl_vaccine_record 
@@ -89,6 +109,7 @@ export const updateVaccination = (req, res) => {
       res.status(200).json({ message: 'Vaccination record updated successfully' });
   });
 };
+
 
 // Delete Vaccination
 export const deleteVaccination = (req, res) => {

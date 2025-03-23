@@ -70,6 +70,23 @@ export const getInfants = (req, res) => {
     });
 };
 
+export const countInfants = (req, res) => {
+    const sql = `
+        SELECT COUNT(*) AS total
+        FROM tbl_members AS m
+        LEFT JOIN tbl_purok AS p ON m.purok = p.id
+    `;
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Server error' });
+        }
+
+        return res.status(200).json({ total: results[0].total });
+    });
+};
+
 export const getInfantById = (req, res) => {
     const { id } = req.params;
     const sql = `

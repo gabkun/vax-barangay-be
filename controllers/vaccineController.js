@@ -34,6 +34,21 @@ export const createVaccine = (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   };
+  export const countVaccines = (req, res) => {
+    try {
+        const sql = 'SELECT COUNT(*) AS total FROM tbl_vaccine';
+        db.query(sql, (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: 'Server error' });
+            }
+            res.status(200).json({ total: results[0].total });
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 
   export const getVaccineById = (req, res) => {
     try {

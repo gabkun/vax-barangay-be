@@ -38,6 +38,24 @@ export const getHealthworkerById = async (req, res) => {
     });
 };
 
+export const countHealthworkers = async (req, res) => { 
+    const sql = `
+        SELECT COUNT(*) AS total
+        FROM tbl_accounts users
+        INNER JOIN tbl_healthworkers details ON users.hworker_id = details.id
+        WHERE users.role = 2 AND users.status = 1
+    `;
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Server error' });
+        }
+
+        return res.status(200).json({ total: results[0].total });
+    });
+};
+
 
 export const getPendingHealthworker = async (req, res) => {
     const sql = `SELECT users.id, users.email, users.status, users.hworker_id, details.lname, details.fname, details.mname, details.suffix, details.address, details.mobile, details.age, details.dob, details.prof_info, details.licensenum, details.job_title, details.department, details.experience
@@ -111,5 +129,27 @@ export const updateHealthworker = async (req, res) => {
             return res.status(404).json({ message: 'Healthworker not found' });
         }
         res.json({ message: 'Healthworker updated successfully' });
+    });
+};
+
+export const deleteHealthworker = async (req, res) => {
+    const { id } = req.params;
+
+    const sql = `
+        DELETE users, details
+        FROM tbl_accounts users
+        INNER JOIN tbl_healthworkers details ON users.hworker_id = details.id
+        WHERE users.id = ?
+    `;
+
+    db.query(sql, [id], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Server error' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ message: 'Healthworker not found' });
+        }
+        res.json({ message: 'Healthworker deleted successfully' });
     });
 };
