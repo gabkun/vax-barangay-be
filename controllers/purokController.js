@@ -63,3 +63,60 @@ export const getInactivepurok = async (req, res) => {
         return res.status(500).json({ message: 'Server error' });
     }
 };
+
+export const updatePurok = async (req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    if (!name) {
+        return res.status(400).json({ message: "Name field is required" });
+    }
+
+    try {
+        const sql = 'UPDATE tbl_purok SET name = ? WHERE id = ? AND status = 1';
+        const values = [name, id];
+
+        db.query(sql, values, (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: 'Server error' });
+            }
+
+            if (results.affectedRows === 0) {
+                return res.status(404).json({ message: 'Purok not found or already inactive' });
+            }
+
+            return res.status(200).json({ message: "Purok updated successfully" });
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Delete Purok (soft delete by setting status to 0)
+export const deletePurok = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const sql = 'UPDATE tbl_purok SET status = 0 WHERE id = ?';
+        
+        db.query(sql, [id], (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: 'Server error' });
+            }
+
+            if (results.affectedRows === 0) {
+                return res.status(404).json({ message: 'Purok not found or already inactive' });
+            }
+
+            return res.status(200).json({ message: "Purok deleted successfully" });
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
