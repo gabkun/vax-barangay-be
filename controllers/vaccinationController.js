@@ -1,13 +1,13 @@
 import db from '../utils/db.js';
 
 export const createVaccination = (req, res) => {
-    const { sched_date, sched_time, vaccine_id, worker_id, member_id } = req.body;
+    const { sched_date, sched_time, vaccine_id, worker_id, member_id, contact_number } = req.body;
     
     const sql = `
-      INSERT INTO tbl_vaccine_record (sched_date, sched_time, vaccine_id, worker_id, member_id, created, status) 
-      VALUES (?, ?, ?, ?, ?, NOW(), 1)
+      INSERT INTO tbl_vaccine_record (sched_date, sched_time, vaccine_id, worker_id, member_id, contact_number, created, status) 
+      VALUES (?, ?, ?, ?, ?, ?, NOW(), 1)
     `;
-    const values = [sched_date, sched_time, vaccine_id, worker_id, member_id];
+    const values = [sched_date, sched_time, vaccine_id, worker_id, member_id, contact_number];
   
     db.query(sql, values, (err, results) => {
       if (err) {
