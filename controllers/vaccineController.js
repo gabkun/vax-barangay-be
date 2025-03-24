@@ -74,13 +74,13 @@ export const createVaccine = (req, res) => {
 export const updateVaccine = (req, res) => {
   try {
       const { id } = req.params;
-      const { type, name, dosage_info, expiry, contra, status, available } = req.body;
+      const { name, dosage_info, expiry,  status, available } = req.body;
       const sql = `
           UPDATE tbl_vaccine
-          SET type = ?, name = ?, dosage_info = ?, expiry = ?, contra = ?, status = ?, available = ?
+          SET name = ?, dosage_info = ?, expiry = ?, status = ?, available = ?
           WHERE id = ?
       `;
-      const values = [type, name, dosage_info, expiry, contra, status, available, id];
+      const values = [name, dosage_info, expiry, status, available, id];
       
       db.query(sql, values, (err, results) => {
           if (err) {
