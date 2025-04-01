@@ -40,6 +40,30 @@ export const createVaccination = (req, res) => {
     });
 };
 
+export const getVaccinationToday = (req, res) => {
+    const sql = `
+        SELECT 
+            vr.id, vr.sched_date, vr.sched_time, vr.status, vr.created,
+            v.type AS vaccine_type, v.name AS vaccine_name,
+            hw.fname AS worker_fname, hw.lname AS worker_lname, hw.suffix AS worker_suffix,
+            m.fname AS member_fname, m.lname AS member_lname, m.suffix AS member_suffix
+        FROM tbl_vaccine_record AS vr
+        INNER JOIN tbl_vaccine AS v ON vr.vaccine_id = v.id
+        INNER JOIN tbl_healthworkers AS hw ON vr.worker_id = hw.id
+        INNER JOIN tbl_members AS m ON vr.member_id = m.id
+        WHERE vr.sched_date = CURDATE()
+        ORDER BY vr.sched_time ASC
+    `;
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Server error' });
+        }
+        res.status(200).json(results);
+    });
+};
+
 export const countVaccination = (req, res) => {
     const sql = `
         SELECT COUNT(*) AS total
